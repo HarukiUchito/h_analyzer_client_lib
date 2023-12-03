@@ -15,6 +15,10 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         .compile(&["../protos/filesystem.proto"], &["../protos"])?;
     tonic_build::configure()
         .type_attribute("grpc_data_transfer.SeriesID", "#[derive(Hash, Eq)]")
+        .type_attribute(
+            "grpc_data_transfer.SeriesID",
+            "#[derive(serde::Deserialize, serde::Serialize)]",
+        )
         .compile(&["../protos/data_transfer.proto"], &["../protos"])?;
     Ok(())
 }
