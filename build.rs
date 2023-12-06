@@ -12,13 +12,13 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             "grpc_fs.DataFrameInfoList",
             "#[derive(serde::Deserialize, serde::Serialize)]",
         )
-        .compile(&["../protos/filesystem.proto"], &["../protos"])?;
+        .compile(&["filesystem.proto"], &["."])?;
     tonic_build::configure()
         .type_attribute("grpc_data_transfer.SeriesID", "#[derive(Hash, Eq)]")
         .type_attribute(
             "grpc_data_transfer.SeriesID",
             "#[derive(serde::Deserialize, serde::Serialize)]",
         )
-        .compile(&["../protos/data_transfer.proto"], &["../protos"])?;
+        .compile(&["data_transfer.proto"], &["."])?;
     Ok(())
 }
