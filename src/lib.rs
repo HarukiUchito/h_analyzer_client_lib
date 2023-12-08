@@ -41,6 +41,15 @@ impl HAnalyzerClient {
         Ok(())
     }
 
+    pub fn clear_series(&mut self) -> Result<()> {
+        let req = grpc_data_transfer::SeriesId {
+            id: "test".to_string(),
+        };
+        self.runtime
+            .block_on(self.data_trf_client.clear_series(req))?;
+        Ok(())
+    }
+
     pub fn send_point(&mut self, x: f64, y: f64) -> Result<()> {
         let req = grpc_data_transfer::SendPoint2DRequest {
             id: Some(grpc_data_transfer::SeriesId {
@@ -48,6 +57,7 @@ impl HAnalyzerClient {
             }),
             point: Some(grpc_data_transfer::Point2D { x: x, y: y }),
         };
+        println!("request sent");
         self.runtime
             .block_on(self.data_trf_client.send_point(req))?;
         Ok(())

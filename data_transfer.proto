@@ -32,8 +32,14 @@ message SeriesIDList {
     repeated SeriesID list = 1;
 }
 
+enum DataFrameCommand {
+    ADD = 0;
+    CLEAR = 1;
+}
+
 message PollPoint2DSeriesResponse {
-    repeated Point2D points = 1;
+    DataFrameCommand command = 1;
+    repeated Point2D points = 2;
 }
 
 service DataTransfer2D {
