@@ -30,32 +30,25 @@ impl HAnalyzerClient {
         }
     }
 
-    pub fn connect_to_series(&mut self) -> Result<()> {
-        let req = grpc_data_transfer::SeriesId {
-            id: "test".to_string(),
-        };
+    pub fn connect_to_series(&mut self, name: &String) -> Result<()> {
+        let req = grpc_data_transfer::SeriesId { id: name.clone() };
         self.runtime
             .block_on(self.data_trf_client.connect_to_new_series(req))?;
         Ok(())
     }
 
-    pub fn clear_series(&mut self) -> Result<()> {
-        let req = grpc_data_transfer::SeriesId {
-            id: "test".to_string(),
-        };
+    pub fn clear_series(&mut self, name: &String) -> Result<()> {
+        let req = grpc_data_transfer::SeriesId { id: name.clone() };
         self.runtime
             .block_on(self.data_trf_client.clear_series(req))?;
         Ok(())
     }
 
-    pub fn send_point(&mut self, x: f64, y: f64) -> Result<()> {
+    pub fn send_point(&mut self, name: &String, x: f64, y: f64) -> Result<()> {
         let req = grpc_data_transfer::SendPoint2DRequest {
-            id: Some(grpc_data_transfer::SeriesId {
-                id: "test".to_string(),
-            }),
+            id: Some(grpc_data_transfer::SeriesId { id: name.clone() }),
             point: Some(grpc_data_transfer::Point2D { x: x, y: y }),
         };
-        println!("request sent");
         self.runtime
             .block_on(self.data_trf_client.send_point(req))?;
         Ok(())
