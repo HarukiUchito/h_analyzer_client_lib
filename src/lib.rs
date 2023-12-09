@@ -1,6 +1,4 @@
-pub mod grpc_data_transfer {
-    tonic::include_proto!("grpc_data_transfer");
-}
+use h_analyzer_grpc::grpc_data_transfer;
 
 use anyhow::Result;
 

@@ -290,6 +290,19 @@ name = "h_analyzer_client_lib"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "h_analyzer_grpc",
+ "prost",
+ "serde",
+ "tokio",
+ "tonic",
+]
+
+[[package]]
+name = "h_analyzer_grpc"
+version = "0.1.0"
+source = "git+https://github.com/HarukiUchito/h_analyzer_grpc.git#9367ad99dc130a64fbff893cb09f287907c6efa4"
+dependencies = [
+ "anyhow",
  "prost",
  "serde",
  "tokio",
