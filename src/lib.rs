@@ -58,4 +58,17 @@ impl HAnalyzerClient {
             .block_on(self.data_trf_client.send_point(req))?;
         Ok(())
     }
+
+    pub fn send_pose_2d(&mut self, name: &String, x: f64, y: f64, theta: f64) -> Result<()> {
+        let req = grpc_data_transfer::SendPose2DRequest {
+            id: Some(grpc_data_transfer::SeriesId { id: name.clone() }),
+            pose: Some(grpc_data_transfer::Pose2D {
+                position: Some(grpc_data_transfer::Point2D { x: x, y: y }),
+                theta: theta,
+            }),
+        };
+        self.runtime
+            .block_on(self.data_trf_client.send_pose2_d(req))?;
+        Ok(())
+    }
 }
