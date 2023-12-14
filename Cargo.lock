@@ -300,12 +300,10 @@ dependencies = [
 [[package]]
 name = "h_analyzer_grpc"
 version = "0.1.0"
-source = "git+https://github.com/HarukiUchito/h_analyzer_grpc.git#9367ad99dc130a64fbff893cb09f287907c6efa4"
+source = "git+https://github.com/HarukiUchito/h_analyzer_grpc.git#b2e7773deeb79fd4cf6875e6388f6c5df57de2c7"
 dependencies = [
- "anyhow",
  "prost",
  "serde",
- "tokio",
  "tonic",
  "tonic-build",
 ]

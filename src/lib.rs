@@ -2,6 +2,8 @@ use h_analyzer_grpc::grpc_data_transfer;
 
 use anyhow::Result;
 
+pub use grpc_data_transfer::SeriesType;
+
 use grpc_data_transfer::data_transfer2_d_client::DataTransfer2DClient;
 
 pub struct HAnalyzerClient {
@@ -30,8 +32,11 @@ impl HAnalyzerClient {
         }
     }
 
-    pub fn connect_to_series(&mut self, name: &String) -> Result<()> {
-        let req = grpc_data_transfer::SeriesId { id: name.clone() };
+    pub fn connect_to_series(&mut self, name: &String, tp: SeriesType) -> Result<()> {
+        let req = grpc_data_transfer::SeriesMetadata {
+            id: Some(grpc_data_transfer::SeriesId { id: name.clone() }),
+            element_type: tp as i32,
+        };
         self.runtime
             .block_on(self.data_trf_client.connect_to_new_series(req))?;
         Ok(())
