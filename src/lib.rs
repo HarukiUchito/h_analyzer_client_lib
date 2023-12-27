@@ -5,6 +5,7 @@ use anyhow::Result;
 pub use grpc_data_transfer::SeriesType;
 
 use grpc_data_transfer::data_transfer2_d_client::DataTransfer2DClient;
+use tonic::client::Grpc;
 
 pub struct HAnalyzerClient {
     data_trf_client:
@@ -29,6 +30,48 @@ impl HAnalyzerClient {
         Self {
             data_trf_client: arc,
         }
+    }
+
+    pub async fn send_world_frame(
+        &mut self,
+        world_frame: h_analyzer_data::WorldFrame,
+    ) -> Result<()> {
+        let bytes = bincode::serialize(&world_frame).unwrap();
+        let mut wf_data = Vec::new();
+        const CHUNK_SIZE: i32 = 1024;
+        let mut cnt = 0;
+        let mut chunk = Vec::new();
+        for byte in bytes {
+            cnt += 1;
+            chunk.push(byte);
+            if cnt == CHUNK_SIZE {
+                cnt = 0;
+                wf_data.push(grpc_data_transfer::WorldFrameBytes {
+                    data: chunk.clone(),
+                });
+                chunk.clear();
+            }
+        }
+        if !chunk.is_empty() {
+            wf_data.push(grpc_data_transfer::WorldFrameBytes {
+                data: chunk.clone(),
+            });
+        }
+
+        let request = tonic::Request::new(tokio_stream::iter(wf_data));
+        tokio::spawn({
+            let handle = std::sync::Arc::clone(&self.data_trf_client);
+            async move {
+                let mut handle = handle.lock().await;
+                match handle.send_world_frame(request).await {
+                    Ok(_) => (),
+                    Err(_) => (),
+                }
+            }
+        })
+        .await
+        .unwrap();
+        Ok(())
     }
 
     pub async fn connect_to_series(
