@@ -1,4 +1,4 @@
-use h_analyzer_grpc::grpc_data_transfer;
+use h_analyzer_data::grpc_data_transfer;
 
 use anyhow::Result;
 
@@ -95,6 +95,33 @@ impl HAnalyzerClient {
             let handle = std::sync::Arc::clone(&self.data_trf_client);
             async move {
                 let _ = handle.lock().await.send_pose2_d(req).await;
+            }
+        })
+        .await
+        .unwrap();
+        Ok(())
+    }
+
+    pub async fn send_point_cloud_2d(
+        &mut self,
+        name: &String,
+        xs: &Vec<f64>,
+        ys: &Vec<f64>,
+    ) -> Result<()> {
+        let req = grpc_data_transfer::SendPointCloud2DRequest {
+            id: Some(grpc_data_transfer::SeriesId { id: name.clone() }),
+            pointcloud: Some(grpc_data_transfer::PointCloud2D {
+                points: xs
+                    .iter()
+                    .zip(ys.iter())
+                    .map(|(&x, &y)| grpc_data_transfer::Point2D { x: x, y: y })
+                    .collect(),
+            }),
+        };
+        tokio::spawn({
+            let handle = std::sync::Arc::clone(&self.data_trf_client);
+            async move {
+                let _ = handle.lock().await.send_point_cloud2_d(req).await;
             }
         })
         .await

@@ -14,5 +14,12 @@ async fn main() -> Result<()> {
             .unwrap();
     }
 
+    let pcl = "points".to_string();
+    cl.connect_to_series(&pcl, h_analyzer_client_lib::SeriesType::PointCloud)
+        .await
+        .unwrap();
+    cl.send_point_cloud_2d(&pcl, &vec![1.0, 2.0, 3.0], &vec![-3.0, 3.0, 4.2])
+        .await
+        .unwrap();
     Ok(())
 }

@@ -13,4 +13,4 @@ prost = "0.12.1"
 
 serde = { version = "1", features = ["derive"] }
 
-h_analyzer_grpc = { git = "https://github.com/HarukiUchito/h_analyzer_grpc.git" }
+h_analyzer_data = { git = "https://github.com/HarukiUchito/h_analyzer_data.git" }
