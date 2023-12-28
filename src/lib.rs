@@ -5,7 +5,6 @@ use anyhow::Result;
 pub use grpc_data_transfer::SeriesType;
 
 use grpc_data_transfer::data_transfer2_d_client::DataTransfer2DClient;
-use tonic::client::Grpc;
 
 pub struct HAnalyzerClient {
     data_trf_client:
