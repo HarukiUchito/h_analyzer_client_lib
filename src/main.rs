@@ -28,6 +28,7 @@ async fn main() -> Result<()> {
     ego.add_measurement("pose".to_string(), m);
     wf.add_entity("Ego".to_string(), ego);
 
+    cl.register_new_world(&"test".to_string()).await.unwrap();
     cl.send_world_frame(wf).await.unwrap();
 
     Ok(())

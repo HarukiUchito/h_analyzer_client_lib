@@ -73,6 +73,21 @@ impl HAnalyzerClient {
         Ok(())
     }
 
+    pub async fn register_new_world(&mut self, name: &String) -> Result<()> {
+        let req = grpc_data_transfer::WorldId { id: name.clone() };
+        tokio::spawn({
+            let handle = std::sync::Arc::clone(&self.data_trf_client);
+            async move {
+                let mut handle = handle.lock().await;
+                let ret = handle.register_new_world(req);
+                ret.await.unwrap()
+            }
+        })
+        .await
+        .unwrap();
+        Ok(())
+    }
+
     pub async fn connect_to_series(
         &mut self,
         //self: std::sync::Arc<Self>,
