@@ -3,7 +3,7 @@ use anyhow::Result;
 #[tokio::main]
 async fn main() -> Result<()> {
     let name = "test2".to_string();
-    let mut cl = h_analyzer_client_lib::HAnalyzerClient::new().await;
+    let mut cl = h_analyzer_client_lib::HAnalyzerClient::new("http://192.168.64.2:50051").await;
     cl.connect_to_series(&name, h_analyzer_client_lib::SeriesType::Point2d)
         .await
         .unwrap();

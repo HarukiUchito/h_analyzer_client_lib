@@ -12,9 +12,10 @@ pub struct HAnalyzerClient {
 }
 
 impl HAnalyzerClient {
-    pub async fn new() -> Self {
+    pub async fn new(addr: &'static str) -> Self {
         let client = tokio::spawn(async move {
-            let endpoints = ["http://192.168.64.2:50051"]
+            let addr = [addr];
+            let endpoints = addr
                 .iter()
                 .map(|a| tonic::transport::Channel::from_static(a));
 
