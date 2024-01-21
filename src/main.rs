@@ -2,7 +2,7 @@ use anyhow::Result;
 
 #[tokio::main]
 async fn main() -> Result<()> {
-    let mut cl = h_analyzer_client_lib::HAnalyzerClient::new("http://192.168.64.2:50051").await;
+    let mut cl = h_analyzer_client_lib::HAnalyzerClient::new("http://localhost:50051").await;
 
     let mut wf = h_analyzer_data::WorldFrame::new(0, 1.52);
     let mut ego = h_analyzer_data::Entity::new();
