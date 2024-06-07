@@ -592,7 +592,7 @@ dependencies = [
 [[package]]
 name = "h_analyzer_data"
 version = "0.1.0"
-source = "git+https://github.com/HarukiUchito/h_analyzer_data.git#31176314278cb7ca8038ef8e4b74ea96f81ef53f"
+source = "git+https://github.com/HarukiUchito/h_analyzer_data.git#64a902a27463c22d1d7b90a6d65c81d5b591f495"
 dependencies = [
  "nalgebra",
  "prost",

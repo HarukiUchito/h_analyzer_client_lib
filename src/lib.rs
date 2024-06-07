@@ -110,7 +110,21 @@ impl HAnalyzerClient {
         Ok(())
     }
 
-    pub async fn register_data_frame(&mut self) -> Result<()> {
+    pub async fn register_data_frame(&mut self, id_name: String) -> Result<()> {
+        let request =
+            tonic::Request::new(h_analyzer_data::grpc_fs::DataFrameExternalId { id_name: id_name });
+        tokio::spawn({
+            let handle = std::sync::Arc::clone(&self.polars_svc_client);
+            async move {
+                let mut handle = handle.lock().await;
+                match handle.register_data_frame(request).await {
+                    Ok(_) => (),
+                    Err(_) => (),
+                }
+            }
+        })
+        .await
+        .unwrap();
         Ok(())
     }
 

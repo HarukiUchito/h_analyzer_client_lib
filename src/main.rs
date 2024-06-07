@@ -14,8 +14,12 @@ async fn main() -> Result<()> {
     .unwrap();
     println!("{}", df);
 
-    cl.register_data_frame().await.unwrap();
+    cl.register_data_frame("imu.csvs".to_string())
+        .await
+        .unwrap();
     cl.send_data_frame(df).await.unwrap();
+
+    return Ok(());
 
     let mut wf = h_analyzer_data::WorldFrame::new(0, 1.52);
     let mut ego = h_analyzer_data::Entity::new();
