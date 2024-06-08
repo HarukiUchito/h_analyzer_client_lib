@@ -9,7 +9,7 @@ async fn main() -> Result<()> {
     let df: DataFrame = df!(
         "integer" => &[1, 2, 3, 4, 5],
         "date" => &[1, 2, 3, 4, 5],
-        "float" => &[4.0, 5.0, 6.0, 7.0, 8.0]
+        "float" => &[4.0, 5.0, 600.0, 70.0, 8.0]
     )
     .unwrap();
     println!("{}", df);
